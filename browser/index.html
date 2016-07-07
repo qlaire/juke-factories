@@ -28,7 +28,7 @@
       </div>
 
       <div class="col-xs-10">
-        <div ng-show="false" class="album" ng-controller="AlbumCtrl">
+        <div ng-show="true" class="album" ng-controller="AlbumCtrl">
           <p>
             <h3>{{ album.name }} {{ albumDuration }}</h3>
             <img ng-src="{{ album.imageUrl }}" class="img-thumbnail">
@@ -56,7 +56,7 @@
             </tbody>
           </table>
         </div>
-        <div ng-show="true" ng-controller="AlbumsCtrl">
+        <div ng-show="false" ng-controller="AlbumsCtrl">
           <h3>Albums</h3>
           <div class="row">
             <div class="col-xs-4" ng-repeat="album in albums">
