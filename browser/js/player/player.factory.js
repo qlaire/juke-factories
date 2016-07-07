@@ -42,6 +42,7 @@ juke.factory('PlayerFactory', function(){
   	this.start(this.songList[index]);
   };
   playerObj.previous = function() {
+  	// CANNOT READ PROPERTY INDEXOF NULL !! ERROR ERROR
   	var index = this.songList.indexOf(this.currentSong);
   	index = mod(index - 1, this.songList.length);
   	this.start(this.songList[index]);
