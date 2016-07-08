@@ -1,4 +1,4 @@
-juke.controller('AlbumsCtrl', function($scope, $log, $q, GetAlbums) {
+juke.controller('AlbumsCtrl', function($scope, $log, $q, $rootScope, GetAlbums) {
 	GetAlbums.fetchAll()
 	.then(function(albums) {
 		$scope.albums = albums;
@@ -15,4 +15,17 @@ juke.controller('AlbumsCtrl', function($scope, $log, $q, GetAlbums) {
 		.catch($log.error);
 	})
 	.catch($log.error)
+	$rootScope.$on('showAlbums', showAlbums);
+  	function showAlbums() {
+    	$scope.showMe = true;
+  	}
+  	$rootScope.$on('viewSwap', function(event, data) {
+  		$scope.showMe = (data.name === 'allAlbums');
+  	})
+  	$scope.viewOneAlbum = function (albumId) {
+  		$rootScope.$broadcast('viewSwap', { name: albumId });
+  		console.log(albumId);
+	};
+
+
 });

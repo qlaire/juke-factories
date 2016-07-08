@@ -3,25 +3,28 @@
 juke.controller('AlbumCtrl', function ($scope, $http, $rootScope, $log, StatsFactory, ConvertTime, GetAlbums, PlayerFactory) {
 
   // load our initial data
-  GetAlbums.fetchAll()
-  .then(function (albums) {
-    return  GetAlbums.fetchById(1);
-  })
-  .then(function (album) {
-    album.imageUrl = '/api/albums/' + album.id + '/image';
-    album.songs.forEach(function (song, i) {
-      song.audioUrl = '/api/songs/' + song.id + '/audio';
-      song.albumIndex = i;
-    });
-    $scope.album = album;
-    StatsFactory.totalTime(album)
-    .then(function(albumDuration) {
-      $scope.albumDuration = ConvertTime.convertSeconds(albumDuration);
+  $scope.currentId;
+  function getAlbum () {
+      GetAlbums.fetchAll()
+    .then(function (albums) {
+      console.log("id to fetch " + $scope.currentId);
+      return  GetAlbums.fetchById($scope.currentId);
     })
-    .catch($log.error);
-  })
-  .catch($log.error); // $log service can be turned on and off; also, pre-bound
-
+    .then(function (album) {
+      album.imageUrl = '/api/albums/' + album.id + '/image';
+      album.songs.forEach(function (song, i) {
+        song.audioUrl = '/api/songs/' + song.id + '/audio';
+        song.albumIndex = i;
+      });
+      $scope.album = album;
+      StatsFactory.totalTime(album)
+      .then(function(albumDuration) {
+        $scope.albumDuration = ConvertTime.convertSeconds(albumDuration);
+      })
+      .catch($log.error);
+    })
+    .catch($log.error); // $log service can be turned on and off; also, pre-bound
+  }
   // main toggle
   $scope.toggle = function (song) {
   //   if ($scope.playing && song === $scope.currentSong) {
@@ -39,6 +42,10 @@ juke.controller('AlbumCtrl', function ($scope, $http, $rootScope, $log, StatsFac
     console.log($scope.currentSong);
     // $scope.$digest();
   };
+  $scope.$on('viewSwap', function (event, data) {
+    $scope.showMe = (data.name === $scope.currentId);
+    getAlbum();
+  });
 
   // incoming events (from Player, toggle, or skip)
   // $scope.$on('pause', pause);
