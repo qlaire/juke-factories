@@ -18,7 +18,7 @@ juke.controller('AlbumCtrl', function ($scope, $http, $rootScope, $log, StatsFac
     .then(function(albumDuration) {
       $scope.albumDuration = ConvertTime.convertSeconds(albumDuration);
     })
-    .catch($log.error)
+    .catch($log.error);
   })
   .catch($log.error); // $log service can be turned on and off; also, pre-bound
 
@@ -27,9 +27,9 @@ juke.controller('AlbumCtrl', function ($scope, $http, $rootScope, $log, StatsFac
   //   if ($scope.playing && song === $scope.currentSong) {
   //     $rootScope.$broadcast('pause');
   //   } else $rootScope.$broadcast('play', song);
-    if(PlayerFactory.isPlaying() && song === PlayerFactory.getCurrentSong()) {
+    if (PlayerFactory.isPlaying() && song === PlayerFactory.getCurrentSong()) {
         PlayerFactory.pause();
-    }  
+    }
     else {
       PlayerFactory.start(song, $scope.album.songs);
       $scope.currentSong = PlayerFactory.getCurrentSong();
@@ -37,6 +37,7 @@ juke.controller('AlbumCtrl', function ($scope, $http, $rootScope, $log, StatsFac
     $scope.playing = PlayerFactory.isPlaying();
     console.log($scope.playing);
     console.log($scope.currentSong);
+    // $scope.$digest();
   };
 
   // incoming events (from Player, toggle, or skip)

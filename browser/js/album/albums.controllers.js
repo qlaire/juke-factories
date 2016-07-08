@@ -12,8 +12,7 @@ juke.controller('AlbumsCtrl', function($scope, $log, $q, GetAlbums) {
 				album.imageUrl = '/api/albums/' + album.id + '/image';
 			})
 		})
-		.catch($log.error)
-		console.log($scope.albums)
+		.catch($log.error);
 	})
 	.catch($log.error)
 });
