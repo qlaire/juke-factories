@@ -7,8 +7,19 @@ juke.controller('PlayerCtrl', function ($scope, $rootScope, PlayerFactory) {
   // state
   $scope.currentSong = PlayerFactory.getCurrentSong();
   $scope.getCurrentSong = PlayerFactory.getCurrentSong.bind(PlayerFactory);
-  $scope.playing = PlayerFactory.isPlaying();
+  $scope.playing = PlayerFactory.isPlaying.bind(PlayerFactory);
+  $scope.progress = function() {
+      return PlayerFactory.getProgress.bind(PlayerFactory)() * 100;
+    }
 
+  $scope.toggle = function() {
+    if($scope.playing()) {
+      PlayerFactory.pause();
+    }
+    else {
+      PlayerFactory.resume();
+    }
+  }
   // main toggle
   // $scope.toggle = function (song) {
   //   // if ($scope.playing) $rootScope.$broadcast('pause');
@@ -22,10 +33,8 @@ juke.controller('PlayerCtrl', function ($scope, $rootScope, PlayerFactory) {
   //   }
   //   $scope.playing = PlayerFactory.isPlaying();
   // };
-  $scope.prev = PlayerFactory.previous;
-  $scope.next = function() {
-    PlayerFactory.next();
-  }
+  $scope.prev = PlayerFactory.previous.bind(PlayerFactory);
+  $scope.next = PlayerFactory.next.bind(PlayerFactory);
   // incoming events (from Album or toggle)
   // $scope.$on('pause', pause);
   // $scope.$on('play', play);
@@ -49,8 +58,8 @@ juke.controller('PlayerCtrl', function ($scope, $rootScope, PlayerFactory) {
   // }
 
   // outgoing events (to Album… or potentially other characters)
-  $scope.next = function () { pause(); $rootScope.$broadcast('next'); };
-  $scope.prev = function () { pause(); $rootScope.$broadcast('prev'); };
+  // $scope.next = function () { pause(); $rootScope.$broadcast('next'); };
+  // $scope.prev = function () { pause(); $rootScope.$broadcast('prev'); };
 
   function seek (decimal) {
     audio.currentTime = audio.duration * decimal;

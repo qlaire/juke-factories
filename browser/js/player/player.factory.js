@@ -58,6 +58,7 @@ juke.factory('PlayerFactory', function($rootScope){
   	this.start(this.songList[index]);
   };
   playerObj.getProgress = function() {
+    console.log("progress " + this.progress);
   	return this.progress;
   };
   

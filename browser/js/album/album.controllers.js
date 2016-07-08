@@ -32,9 +32,9 @@ juke.controller('AlbumCtrl', function ($scope, $http, $rootScope, $log, StatsFac
     }
     else {
       PlayerFactory.start(song, $scope.album.songs);
-      $scope.currentSong = PlayerFactory.getCurrentSong();
+      $scope.currentSong = PlayerFactory.getCurrentSong.bind(PlayerFactory);
     }
-    $scope.playing = PlayerFactory.isPlaying();
+    $scope.playing = PlayerFactory.isPlaying.bind(PlayerFactory);
     console.log($scope.playing);
     console.log($scope.currentSong);
     // $scope.$digest();
